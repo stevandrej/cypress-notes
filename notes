@@ -1,0 +1,40 @@
+Cypress
+
+npm install cypress --save-dev
+npm install @types/cypress --save-dev
+
+npx cypress open
+npx cypress run (CLI run)
+———————————————————————
+
+For enabling autocomplete in VSCode
+/// <reference types="Cypress" />
+
+Preferred selectors data-cy
+———————————————————————
+
+Assertions
+https://docs.cypress.io/guides/references/assertions
+
+Api commands “and”
+https://docs.cypress.io/api/commands/and
+———————————————————————
+
+Reusable variables, values, aliases
+
+// Should not be used
+const btn = cy.get(‘[data-cy=“submit-btn”]’) ======>>>  returns Cypress.Chainable<JQuery<HTMLElement>>
+- cypress creates queue of sets aka. instructions, so cy.get(‘[data-cy=“”]’) doesn’t return HTML Element, but an instruction.
+Should be use as following:
+
+Define alias: cy.get(‘[data-cy=“submit-btn”]’).as(‘submitBtn’);
+
+Usage:
+cy.get(‘@submitBtn’).click();
+
+Accessing elements (subjects, still not the exact html el, but a wrapper object of it) can be done with .then()
+    cy.get('[data-cy="contact-btn-submit"]').then((el) => {
+      expect(el).to.have.text("Send Message");
+    });
+
+
