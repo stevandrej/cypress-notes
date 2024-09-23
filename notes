@@ -36,5 +36,72 @@ Accessing elements (subjects, still not the exact html el, but a wrapper object 
     cy.get('[data-cy="contact-btn-submit"]').then((el) => {
       expect(el).to.have.text("Send Message");
     });
+———————————————————————
 
+Code repetition 
+
+* beforeEach()
+* afterEach()
+
+describe(’Some name’, ()=>{ 	before(()=>{ 		// runs only once, before all tests
+	})
+	beforeEach(()=>{
+		//runs before every test
+		//ex. 
+		cy.visit(‘/about’);
+		// seeding a database…
+	});
+	afterEach(()=>{ });
+	after(()=>{ })
+… })
+
+———————————————————————
+
+Creating custom command
+
+cypress
+	- support
+		- commands.js
+
+// example:
+Cypress.Commands.add("submitForm", () => {
+  cy.get('form button[type="submit"').click();
+});
+
+Don’t overuse it
+	less readable
+	need to dive into the file to find out what the command does.
+
+———————————————————————
+
+Creating custom query
+
+Cypress.Commands.addQuery("getById", (id) => {
+  return () => {
+    return cy.get(`[data-cy="${id}"]`);
+  };
+});
+
+usage: 	cy.getById(‘message’)
+
+———————————————————————
+
+Creating Tasks
+
+	- cypress.config.js
+
+in —> defineConfig({
+	e2e: { 		…
+		setupNodeEvents(on, config) { 			on(‘task’, { 				seedDatabase(optionalParams){
+					// Run your NodeJS code
+					// e.g. edit a file here
+					return filename; //optional, can return but don’t have to
+				}
+			});
+		}
+	}
+})
+
+usage: will be executed when cy.task(‘seedDatabase’, filename.csv).then(returnValue =>{ // use the returned value - optional }) is called.
+———————————————————————
 
