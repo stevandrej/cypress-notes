@@ -105,3 +105,27 @@ in —> defineConfig({
 usage: will be executed when cy.task(‘seedDatabase’, filename.csv).then(returnValue =>{ // use the returned value - optional }) is called.
 ———————————————————————
 
+Stubs and Spies
+
+Stubs: Replace existing methods;
+	Override browser default api functions like window.navigator.geolocation
+
+Spies: Add listeners to existing methods;
+	Check if set/get localStorage has been called.
+
+———————————————————————
+
+Fixtures
+
+in folder - fixtures / example-data.json
+
+Store dummy testing data in central place
+Access via fixtures() and use in your tests.
+
+———————————————————————
+
+Clock
+
+Manipulating time
+cy.clock()  - on test initialization
+cy.tick(2000)   - then in the test calling tick to skip some time in milliseconds
