@@ -129,3 +129,50 @@ Clock
 Manipulating time
 cy.clock()  - on test initialization
 cy.tick(2000)   - then in the test calling tick to skip some time in milliseconds
+
+———————————————————————
+
+Application Setup / usage of Cypress
+
+- separate database from production
+- Clear and seed database for every test:
+—> cypress.config.js
+	setupNodeEvents(on, config) {
+          // implement node event listeners here
+          on('task', {
+           async seedDatabase() {
+           await seed();
+           return null;
+          }
+        })
+       },
+
+in  —> e2e/test.cy.js test file describe("Takeaways", () => {
+  beforeEach(() => {
+    cy.task('seedDatabase');
+  });
+…
+—————————
+Interceptor
+
+    cy.intercept("POST", "/newsletter*", {
+      status: 201,
+    }).as("subscribe");
+…
+// not always necessary 
+    cy.wait("@subscribe");
+
+Sending http requests
+it("should successfully create a new contact", () => {
+    cy.request({
+      method: "POST",
+      url: "/newsletter",
+      body: {
+        email: "test@example.com",
+      },
+      form: true,
+    }).then((response) => {
+      expect(response.status).to.eq(201);
+    });
+  });
+
